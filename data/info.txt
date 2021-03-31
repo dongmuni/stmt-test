@@ -1,0 +1,91 @@
+meta Object 문서 정보
+ - version String 데이터 버전 정보  # 야놀자 전체 목록 가져온 일자로 설정, 일단 YaDeals.creation_time 일자부분으로 사용
+ products Array-Object 상품별 정보
+ - view Object 화면 구성에 필요한 정보 
+ - - title Object 상품 이름 
+ - - - en String 상품 이름(영어)  # null로 설정
+ - - - ko String 상품 이름(한글)  # YaDealOption.name
+ - - description Object 상품 설명에 필요한 정보 
+ - - - exclude Object 상품에 포함되지 않는 정보 
+ - - - - en String 상품에 포함되지 않는 정보 (영어)  # null로 설정 
+ - - - - ko String 상품에 포함되지 않는 정보 (한글)  # null로 설정 
+ - - - voucher Object Voucher 정보
+ - - - - type Array-String Voucher 타입 e-voucher : 이메일 voucher m-voucher : 모바일 voucher # null로 설정 
+ - - - - useDescription Object 사용 설명 
+ - - - - - en String 사용 설명 (영어)  # null로 설정 
+ - - - - - ko String 사용 설명 (한글)  # null로 설정 
+ - - - contents Object 상품의 내용 
+ - - - - en String 상품의 내용 (영어)  # null로 설정 
+ - - - - ko String 상품의 내용 (한글)  # # YaDealOption.desc를 쓰면되는데 문서상 존재하나 실제로는 주지 않는다.
+ - - - duration Object 상품 지속 시간 
+ - - - - d Number 날짜 정보  # null로 설정 
+ - - - - h Number 시간 정보  # null로 설정 
+ - - - - m Number 분 정보  # null로 설정 
+ - - - includes Object 상품에 포함되는 정보
+ - - - - en String 상품에 포함되는 정보(영어)  # null로 설정
+ - - - - ko String 상품에 포함되는 정보(한글)  # null로 설정
+ - - - warnings Object 상품 주의 사항 
+ - - - - en String 상품 주의 사항(영어)  # null로 설정
+ - - - - ko String 상품 주의 사항(한글)  # null로 설정
+ - - - refundPolicy Object 상품 환불 규정 
+ - - - - en String 상품 환불 규정(영어)  # null로 설정
+ - - - - ko String 상품 환불 규정(한글)  # null로 설정
+ - - - meetingPolicy Object 접선 규정 
+ - - - - en String 접선 규정(영어)  # null로 설정
+ - - - - ko String 접선 규정(한글)  # null로 설정
+ - - - itineraries Array-Object 경유지에 대한 정보
+ - - - - en String 경유지 이름 (영어)  # null로 설정
+ - - - - ko String 경유지 이름 (한글)  # null로 설정
+ - - - businessHour Object 운영 시간 정보 
+ - - - - en String 운영 시간 정보 (영어)  # null로 설정
+ - - - - ko String 운영 시간 정보 (한글)  # null로 설정
+ - productId String 상품 고유 번호 # YNJPRO + YaDealOption.id 조합으로 사용
+ - properties Object 처리에 필요한 데이터 
+ - - map Array-Object 지도 정보 # 실 데이터에서 []로 비어있다. 동일하게 처리
+ - - - pos Object 지도 위도, 경도 정보 
+ - - - - latitude String 위도 정보  
+ - - - - longitude String 경도 정보  
+ - - - city Object 도시 정보 
+ - - - - code String 도시 코드  
+ - - - - name Object 도시 이름 
+ - - - - - en String 도시 이름(영어) 
+ - - - - - ko String 도시 이름(한글)
+ - - - country Object 나라 정보 
+ - - - - code String 나라 코드
+ - - - - name Object 나라 이름 
+ - - - - - en String 나라 이름(영어) 
+ - - - - - ko String 나라 이름(한글) 
+ - - limits Object 제한 사항 
+ - - - age Object 나이 정보 
+ - - - - min Number 최소 나이 정보 나이 정보를 받지 못했을 경우 값 : -1  # -1로 설정
+ - - - pax Object 수용 인원 정보 
+ - - - - max Number 최대 수용 인원 정보  # 1로 설정
+ - - - - min Number 최소 수용 인원 정보  # 9999로 설정
+ - - - valid Object 유효 기간 정보 # TODO 필수값이며 사용가능 기한에 대한 것이라면, "구매당일" 기준처리를 협의한 후 일자 정보를 삽입할것
+ - - - - from String 유효 기간 시작 정보  # null로 설정 TODO 하지만 필요하다면 DealOption.expired_type이 ON_PERIOD이면 available_period.start, ON_PURCHASE 이면 구매당일  
+ - - - - to String 유효 기간 끝 정보  # null로 설정 TODO 하지만 필요하다면 DealOption.expired_type이 ON_PERIOD이면 available_period.end, ON_PURCHASE 이면 DealOption.expired_at
+ - - supply Object 제공 정보 
+ - - - price Object 가격 정보
+ - - - - min Number 최소 가격 정보 상품 가격 정보를 받지 못했을 경우 값 : -1 # YaDealOption.gajago_sale_price
+ - - - - currency String 환율 정보  # 'KRW'
+ - - - policy Object 정책 정보 
+ - - - - airportPickup Boolean 공항 픽업 여부  # false로 설정
+ - - - - wheelChair Boolean 휠체어 가능 여부 # false로 설정
+ - - - - skipLine Boolean 줄 대기 여부  # false로 설정
+ - - - - hotelPickup Boolean 호텔 픽업 여부  # false로 설정
+ - - - - freeSaleOnly Boolean FreeSale 여부  # false로 설정
+ - - - - mobileVoucher Boolean MobileVoucher 여부  # false로 설정
+ - - - - businessHour Boolean BusinessHour 여부  # false로 설정
+ - - - - isRefundable Boolean 환불 가능 여부  # true 로 설정 # TODO 환불불가여부를 상정한 처리이므로 아니라면 수정 필요
+ - - - - instantConfirmation Boolean 예약 즉시 확정 여부  # false로 설정
+ - - - - hasMeetingInfo Boolean 접선 정보 여부  # false로 설정
+ - - - - firstAvailabilityDate Date 처음 예약 가능한 날짜 ex) ‘2019-12-20’ or null  # 일단 null로 처리하고 필요시 재논의, 판매기간 정보만 있으므로 조회하는 날 기준으로 별도 처리 필요
+ - - - guideLanguages Array-String 가이드 언어  # null로 설정
+ - - - writtenLanguages Array-String 언어 정보 # null로 설정
+ - - category Array-Object 카테고리 정보 # GDF에서는 category 전체가 []로 비어있다. 동일하게 처리.
+ - - - supplier String 공급사 카테고리 정보 # TODO 만일 필요하다면 detail과 같은 값으로 처리
+ - - - code String 카테고리 코드 
+ - - - name Object 카테고리 이름 
+ - - - - en String 카테고리 이름(영어) 
+ - - - - ko String 카테고리 이름(한글)
+ packageId String 패키지 고유 번호 # 'YNJ' + YaDeal.id 값으로 사용
