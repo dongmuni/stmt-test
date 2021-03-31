@@ -8,66 +8,14 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Stack;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 
-class Line {
-	
-	int depth;
-	String name;
-	String type;
-	String desc;
-	
-	static Pattern LINE_PATTERN = Pattern.compile("^(\\S+)\\s+(\\S+)\\s+(.+)$");
+import lombok.extern.slf4j.Slf4j;
 
-	public Line(int depth, String name, String type, String desc) {
-		super();
-		this.depth = depth;
-		this.name = name;
-		this.type = type;
-		this.desc = desc;
-	}
-
-	@Override
-	public String toString() {
-		return "Line [depth=" + depth + ", name=" + name + ", type=" + type + ", desc=" + desc + "]";
-	}
-
-	public static Line valueOf(String line) {
-		int depth = 0;
-		String name = null;
-		String type = null;
-		String desc = null;
-		int i = 0;
-
-		loop: for (; i < line.length(); i++) {
-			int ch = line.charAt(i);
-			switch (ch) {
-			case ' ':
-				// do nothing
-				break;
-			case '-':
-				depth++;
-				break;
-			default:
-				break loop;
-			}
-		}
-		
-		Matcher matcher = LINE_PATTERN.matcher(line.substring(i));
-		if ( !matcher.matches() )
-			throw new IllegalArgumentException("Invalid format: " + line);
-		
-		name = matcher.group(1);
-		type = matcher.group(2);
-		desc = matcher.group(3);
-		return new Line(depth, name, type, desc.replaceAll("\"", "'").trim());
-	}
-}
-
+@Slf4j
 public class FormatParser {
 	
 	public void run(String ... files) throws IOException {
@@ -75,22 +23,28 @@ public class FormatParser {
 			runOne(file);
 	}
 	
+	/**
+	 * @param file
+	 * @throws IOException
+	 */
 	public void runOne(String file) throws IOException {
 		Map<String, Object> root = new LinkedHashMap<>();
 		Stack<Map<String, Object>> stack = new Stack<>();
 		Map<String, Object> top = stack.push(root);
 		
 		try ( BufferedReader br = new BufferedReader(new FileReader("data/" + file + ".txt")); ) {
+			int i = 0;
+			
 			for ( Line line : br.lines().map(Line::valueOf).collect(Collectors.toList()) ) {
-				top = stack.peek();
-				
-				System.out.format("%d %d %s %s\n", line.depth, stack.size(), line.name, line.type);
+				log.debug(String.format("index: %2d, depth: %d, stack: %d, name: %s, type: %s", 
+						++i, line.depth, stack.size(), line.name, line.type));
 				
 				while ( line.depth < stack.size() - 1 ) {
-					System.out.println("pop");
+					log.debug("pop");
 					stack.pop();
-					top = stack.peek();
 				}
+				
+				top = stack.peek();
 
 				if ( "Object".equals(line.type) ) {
 					Map<String, Object> newObj = new LinkedHashMap<>();
@@ -113,13 +67,14 @@ public class FormatParser {
 		}
 		
 		ObjectMapper mapper = new ObjectMapper();
+		mapper.configure(SerializationFeature.INDENT_OUTPUT, true);
 		String value = mapper.writeValueAsString(root);
-		System.out.println(file + " " + value);
+		log.info(file + " " + value);
 	}
 	
 	public static void main(String[] args) throws IOException {
 		FormatParser app = new FormatParser();
-		//app.run("detail", "info", "option", "price");
-		app.run("option");
+		app.run("detail", "info", "option", "price");
+		//app.run("option");
 	}
 }

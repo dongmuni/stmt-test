@@ -5,7 +5,7 @@ meta Object 문서 정보
  - default Array-Object 공통되는 옵션 정보 
  - - perBooking Array-Object (perBooking) 상품 예약 정보 # 넣어줄 데이터가 없다 []로 처리
  - - perPax Array-Object (perPax) 참가 인원 예약 정보 # 넣어줄 데이터가 없다 []로 처리
- - products Array 상품별 옵션 정보 
+ - products Object 상품별 옵션 정보 
  - - {productId} Array-Object 상품 고유 번호 # json 키값을 YNJPRO+deal id 로 처리
  - - - default Array-Object 각 상품별 공통 옵션 정보 
  - - - - perBooking Array-Object (perBooking) 상품 예약 정보 # 넣어줄 데이터가 없다 []로 처리
@@ -13,7 +13,7 @@ meta Object 문서 정보
  - - - prices Array-Object 특정 가격 특별 옵션 정보 
  - - - - perBooking Array-Object (perBooking) 상품 예약 정보 # 넣어줄 데이터가 없다 []로 처리
  - - - - perPax Array-Object (perPax) 참가 인원 예약 정보 # 넣어줄 데이터가 없다 []로 처리
- - - - dates Array 특정 날짜 특별 옵션 정보 # 넣어줄 데이터가 없다 []로 처리
+ - - - dates Object 특정 날짜 특별 옵션 정보 # 넣어줄 데이터가 없다 []로 처리
  - - - - {date} Array-Object 특정 날짜 
  - - - - - perBooking Array-Object (perBooking) 상품 예약 정보 
  - - - - - perPax Array-Object (perPax) 참가 인원 예약 정보
